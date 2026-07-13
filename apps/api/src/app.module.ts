@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { BullModule } from '@nestjs/bullmq';
+import Redis from 'ioredis';
 
 import { AuthModule } from './auth/auth.module';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
@@ -21,15 +22,31 @@ import { PromotionsModule } from './promotions/promotions.module';
 import { ReviewsModule } from './reviews/reviews.module';
 import { PublicModule } from './public/public.module';
 
+/**
+ * Soporta dos formas de configurar Redis:
+ * - REDIS_URL (Railway y la mayoría de los hosts en la nube la exponen así, con
+ *   contraseña incluida en la propia URL: redis://default:password@host:port)
+ * - REDIS_HOST + REDIS_PORT (+ REDIS_PASSWORD opcional), como en docker-compose local.
+ * `maxRetriesPerRequest: null` es obligatorio para BullMQ, si no tira error al arrancar.
+ */
+function buildRedisConnection() {
+  if (process.env.REDIS_URL) {
+    return new Redis(process.env.REDIS_URL, { maxRetriesPerRequest: null });
+  }
+  return {
+    host: process.env.REDIS_HOST ?? 'localhost',
+    port: Number(process.env.REDIS_PORT ?? 6379),
+    password: process.env.REDIS_PASSWORD || undefined,
+    maxRetriesPerRequest: null,
+  };
+}
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     ThrottlerModule.forRoot([{ ttl: 60000, limit: 120 }]),
     BullModule.forRoot({
-      connection: {
-        host: process.env.REDIS_HOST ?? 'localhost',
-        port: Number(process.env.REDIS_PORT ?? 6379),
-      },
+      connection: buildRedisConnection(),
     }),
 
     AuthModule,
