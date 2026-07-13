@@ -29,7 +29,7 @@ import { PublicModule } from './public/public.module';
  * - REDIS_HOST + REDIS_PORT (+ REDIS_PASSWORD opcional), como en docker-compose local.
  * `maxRetriesPerRequest: null` es obligatorio para BullMQ, si no tira error al arrancar.
  */
-function buildRedisConnection() {
+function buildRedisConnection(): any {
   if (process.env.REDIS_URL) {
     return new Redis(process.env.REDIS_URL, { maxRetriesPerRequest: null });
   }
