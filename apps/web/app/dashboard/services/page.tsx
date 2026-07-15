@@ -74,7 +74,7 @@ export default function ServicesPage() {
     <div className="max-w-3xl">
       <h1 className="text-2xl font-bold mb-6">Servicios</h1>
 
-      <div className="bg-white rounded-xl border shadow-sm p-6 mb-6 grid grid-cols-3 gap-3 items-end">
+      <div className="bg-white rounded-xl border shadow-sm p-6 mb-6 grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
         <div>
           <label className="block text-sm font-medium mb-1">Nombre</label>
           <input value={newForm.name} onChange={(e) => setNewForm({ ...newForm, name: e.target.value })} className="w-full border rounded-lg px-3 py-2" />
@@ -96,7 +96,7 @@ export default function ServicesPage() {
         {services.map((s) => (
           <div key={s.id} className="p-4">
             {editingId === s.id ? (
-              <div className="grid grid-cols-3 gap-3 items-end">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
                 <input value={editForm.name} onChange={(e) => setEditForm({ ...editForm, name: e.target.value })} className="w-full border rounded-lg px-3 py-2" />
                 <input type="number" value={editForm.durationMin} onChange={(e) => setEditForm({ ...editForm, durationMin: Number(e.target.value) })} className="w-full border rounded-lg px-3 py-2" placeholder="Duración (min)" />
                 <input type="number" value={editForm.pricePesos} onChange={(e) => setEditForm({ ...editForm, pricePesos: Number(e.target.value) })} className="w-full border rounded-lg px-3 py-2" placeholder="Precio (pesos)" />

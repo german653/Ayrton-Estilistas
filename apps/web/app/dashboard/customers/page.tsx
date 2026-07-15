@@ -40,8 +40,8 @@ export default function CustomersPage() {
       {loading ? (
         <p>Cargando…</p>
       ) : (
-        <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
-          <table className="w-full text-sm">
+        <div className="bg-white rounded-xl shadow-sm border overflow-x-auto">
+          <table className="w-full text-sm min-w-[640px]">
             <thead className="bg-charcoal/5 text-left">
               <tr>
                 <th className="p-3">Nombre</th>
