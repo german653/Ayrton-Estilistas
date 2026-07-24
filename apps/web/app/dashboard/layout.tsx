@@ -12,6 +12,7 @@ const NAV = [
   { href: '/dashboard/customers', label: 'Clientes (CRM)' },
   { href: '/dashboard/services', label: 'Servicios' },
   { href: '/dashboard/employees', label: 'Empleados' },
+  { href: '/dashboard/gallery', label: 'Galería' },
   { href: '/dashboard/agent', label: 'Agente IA' },
   { href: '/dashboard/knowledge', label: 'Base de conocimientos' },
   { href: '/dashboard/promotions', label: 'Promociones' },

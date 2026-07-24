@@ -6,6 +6,9 @@ import ChatWidget from '@/components/ChatWidget';
 import BookingWidget from '@/components/BookingWidget';
 import LoginModal from '@/components/LoginModal';
 import AccountPanel from '@/components/AccountPanel';
+import GalleryCarousel from '@/components/GalleryCarousel';
+import MarqueeStrip from '@/components/MarqueeStrip';
+import Reveal from '@/components/Reveal';
 import { hasCustomerSession, publicApi } from '@/lib/publicApi';
 
 interface ApiService {
@@ -93,7 +96,8 @@ export default function HomePage() {
 
       {/* HERO */}
       <section className="relative min-h-screen bg-ink text-paper overflow-hidden flex items-center">
-        <div className="max-w-6xl mx-auto px-6 md:px-12 grid md:grid-cols-2 gap-12 items-center py-32">
+        <div className="grain-overlay" />
+        <div className="max-w-6xl mx-auto px-6 md:px-12 grid md:grid-cols-2 gap-12 items-center py-32 relative z-10">
           <div>
             <p className="text-xs uppercase tracking-[0.3em] text-stone mb-6">Villa Carlos Paz · Córdoba</p>
             <h1 className="font-display text-[15vw] md:text-7xl leading-[0.85] tracking-wide">
@@ -127,9 +131,11 @@ export default function HomePage() {
         </div>
       </section>
 
+      <MarqueeStrip text="CORTE · BARBA · COLOR · PEINADO" />
+
       {/* EL ESTUDIO */}
       <section className="py-24 px-6 md:px-12 border-b border-charcoal/10">
-        <div className="max-w-3xl mx-auto text-center">
+        <Reveal className="max-w-3xl mx-auto text-center">
           <ScissorsIcon className="w-8 h-8 mx-auto mb-6 text-brass" />
           <p className="font-display text-3xl md:text-4xl leading-tight tracking-wide">
             "No apuramos un corte. Lo hacemos bien, y después vemos la hora."
@@ -138,12 +144,12 @@ export default function HomePage() {
             Así trabajamos desde siempre. Ahora, además, podés ver los horarios libres vos mismo desde
             el celular, y reservar en un minuto — sin llamar, sin esperar a que alguien te conteste.
           </p>
-        </div>
+        </Reveal>
       </section>
 
       {/* SERVICIOS */}
       <section id="servicios" className="py-24 px-6 md:px-12">
-        <div className="max-w-4xl mx-auto">
+        <Reveal className="max-w-4xl mx-auto">
           <p className="text-xs uppercase tracking-[0.3em] text-brass mb-3 text-center">Servicios</p>
           <h2 className="font-display text-4xl md:text-5xl text-center mb-14 tracking-wide">
             LO QUE HACEMOS
@@ -165,45 +171,59 @@ export default function HomePage() {
               <p className="text-center text-charcoal/40 py-10">Todavía no hay servicios cargados.</p>
             )}
           </div>
-        </div>
+        </Reveal>
+      </section>
+
+      {/* GALERÍA */}
+      <section id="galeria" className="py-24 px-6 md:px-12 bg-charcoal/[0.03]">
+        <Reveal>
+          <p className="text-xs uppercase tracking-[0.3em] text-brass mb-3 text-center">Nuestro trabajo</p>
+          <h2 className="font-display text-4xl md:text-5xl text-center mb-12 tracking-wide">GALERÍA</h2>
+          <GalleryCarousel />
+        </Reveal>
       </section>
 
       {/* RESERVAR */}
-      <section id="reservar" className="py-24 px-6 md:px-12 bg-charcoal/[0.03]">
-        <p className="text-xs uppercase tracking-[0.3em] text-brass mb-3 text-center">Turnos disponibles</p>
-        <h2 className="font-display text-4xl md:text-5xl text-center mb-4 tracking-wide">RESERVÁ VOS MISMO</h2>
-        <p className="text-center text-charcoal/60 max-w-md mx-auto mb-12">
-          Elegí el servicio, el día y el horario que te quede mejor. En cuanto lo confirmás, ese horario
-          deja de estar disponible para cualquier otra persona.
-        </p>
-        <BookingWidget />
+      <section id="reservar" className="py-24 px-6 md:px-12">
+        <Reveal>
+          <p className="text-xs uppercase tracking-[0.3em] text-brass mb-3 text-center">Turnos disponibles</p>
+          <h2 className="font-display text-4xl md:text-5xl text-center mb-4 tracking-wide">RESERVÁ VOS MISMO</h2>
+          <p className="text-center text-charcoal/60 max-w-md mx-auto mb-12">
+            Elegí el servicio, el día y el horario que te quede mejor. En cuanto lo confirmás, ese horario
+            deja de estar disponible para cualquier otra persona.
+          </p>
+          <BookingWidget />
+        </Reveal>
       </section>
 
       {/* CUENTA / FIDELIZACIÓN */}
-      <section id="cuenta" className="py-24 px-6 md:px-12">
-        <p className="text-xs uppercase tracking-[0.3em] text-brass mb-3 text-center">Clientes frecuentes</p>
-        <h2 className="font-display text-4xl md:text-5xl text-center mb-4 tracking-wide">SUMÁ CORTES, GANÁ DESCUENTOS</h2>
-        <p className="text-center text-charcoal/60 max-w-md mx-auto mb-12">
-          Creá tu cuenta gratis y cada corte que te hagas acá queda registrado. A partir del tercero,
-          empezás a tener descuentos.
-        </p>
-        {loggedIn ? (
-          <AccountPanel onLogout={() => setLoggedIn(false)} />
-        ) : (
-          <div className="text-center">
-            <button
-              onClick={() => setLoginOpen(true)}
-              className="bg-ink text-paper font-medium px-8 py-3.5 rounded-full hover:bg-brass hover:text-ink transition shadow-lg hover:shadow-xl hover:-translate-y-0.5"
-            >
-              Crear mi cuenta / Iniciar sesión
-            </button>
-          </div>
-        )}
+      <section id="cuenta" className="py-24 px-6 md:px-12 bg-charcoal/[0.03]">
+        <Reveal>
+          <p className="text-xs uppercase tracking-[0.3em] text-brass mb-3 text-center">Clientes frecuentes</p>
+          <h2 className="font-display text-4xl md:text-5xl text-center mb-4 tracking-wide">SUMÁ CORTES, GANÁ DESCUENTOS</h2>
+          <p className="text-center text-charcoal/60 max-w-md mx-auto mb-12">
+            Creá tu cuenta gratis y cada corte que te hagas acá queda registrado. A partir del tercero,
+            empezás a tener descuentos.
+          </p>
+          {loggedIn ? (
+            <AccountPanel onLogout={() => setLoggedIn(false)} />
+          ) : (
+            <div className="text-center">
+              <button
+                onClick={() => setLoginOpen(true)}
+                className="bg-ink text-paper font-medium px-8 py-3.5 rounded-full hover:bg-brass hover:text-ink transition shadow-lg hover:shadow-xl hover:-translate-y-0.5"
+              >
+                Crear mi cuenta / Iniciar sesión
+              </button>
+            </div>
+          )}
+        </Reveal>
       </section>
 
       {/* CTA WHATSAPP */}
-      <section className="bg-ink text-paper py-24 px-6 md:px-12">
-        <div className="max-w-2xl mx-auto text-center">
+      <section className="relative bg-ink text-paper py-24 px-6 md:px-12 overflow-hidden">
+        <div className="grain-overlay" />
+        <Reveal className="max-w-2xl mx-auto text-center relative z-10">
           <h2 className="font-display text-4xl md:text-5xl tracking-wide mb-6">¿PREFERÍS ESCRIBIR?</h2>
           <p className="text-paper/70 mb-10">
             También podés reservar, cambiar o cancelar tu turno charlando por WhatsApp o por este chat —
@@ -224,7 +244,7 @@ export default function HomePage() {
               Escribir por WhatsApp
             </a>
           </div>
-        </div>
+        </Reveal>
       </section>
 
       {/* FOOTER */}

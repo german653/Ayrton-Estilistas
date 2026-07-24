@@ -51,6 +51,7 @@ model Tenant {
   reminders       Reminder[]
   promotions      Promotion[]
   reviewRequests  ReviewRequest[]
+  galleryImages   GalleryImage[]
   businessProfile BusinessProfile?
 
   @@map("tenants")
@@ -385,4 +386,22 @@ model Promotion {
   createdAt   DateTime @default(now())
 
   @@map("promotions")
+}
+
+// ---------------------------------------------------------------------------
+// GALERÍA DE IMÁGENES (carrusel público, subido a Cloudinary)
+// ---------------------------------------------------------------------------
+
+model GalleryImage {
+  id        String   @id @default(uuid())
+  tenantId  String
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  url       String   // URL final servida por Cloudinary
+  publicId  String   // ID en Cloudinary, necesario para poder borrarla también ahí
+  caption   String?
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@index([tenantId])
+  @@map("gallery_images")
 }

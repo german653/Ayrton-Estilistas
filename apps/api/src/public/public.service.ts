@@ -31,6 +31,15 @@ export class PublicService {
     });
   }
 
+  async getGallery(slug: string) {
+    const tenant = await this.resolveTenant(slug);
+    return this.prisma.galleryImage.findMany({
+      where: { tenantId: tenant.id },
+      select: { id: true, url: true, caption: true },
+      orderBy: { order: 'asc' },
+    });
+  }
+
   async getAvailability(slug: string, serviceId: string, date: string, employeeId?: string) {
     const tenant = await this.resolveTenant(slug);
     return this.availability.getAvailableSlots(tenant.id, serviceId, date, employeeId);

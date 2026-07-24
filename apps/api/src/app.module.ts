@@ -21,6 +21,7 @@ import { RemindersModule } from './reminders/reminders.module';
 import { PromotionsModule } from './promotions/promotions.module';
 import { ReviewsModule } from './reviews/reviews.module';
 import { PublicModule } from './public/public.module';
+import { GalleryModule } from './gallery/gallery.module';
 
 /**
  * Soporta dos formas de configurar Redis:
@@ -64,6 +65,7 @@ function buildRedisConnection(): any {
     PromotionsModule,
     ReviewsModule,
     PublicModule,
+    GalleryModule,
   ],
   providers: [
     { provide: APP_GUARD, useClass: JwtAuthGuard },

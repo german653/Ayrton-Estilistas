@@ -13,6 +13,11 @@ export class PublicController {
     return this.publicService.getServices(slug);
   }
 
+  @Get('gallery')
+  gallery(@Param('tenantSlug') slug: string) {
+    return this.publicService.getGallery(slug);
+  }
+
   @Get('availability')
   availability(@Param('tenantSlug') slug: string, @Query() query: PublicAvailabilityQueryDto) {
     return this.publicService.getAvailability(slug, query.serviceId, query.date, query.employeeId);

@@ -32,6 +32,25 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   return response.json() as Promise<T>;
 }
 
+async function uploadFile<T>(path: string, formData: FormData): Promise<T> {
+  const token = getToken();
+  const response = await fetch(`${API_URL}${path}`, {
+    method: 'POST',
+    headers: {
+      // Sin Content-Type manual: el navegador pone el boundary correcto de multipart solo.
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    body: formData,
+  });
+
+  if (!response.ok) {
+    const body = await response.json().catch(() => ({ message: response.statusText }));
+    throw new Error(typeof body.message === 'string' ? body.message : 'Error al subir el archivo');
+  }
+
+  return response.json() as Promise<T>;
+}
+
 export const api = {
   get: <T,>(path: string) => request<T>(path),
   post: <T,>(path: string, body?: unknown) =>
@@ -39,4 +58,5 @@ export const api = {
   patch: <T,>(path: string, body?: unknown) =>
     request<T>(path, { method: 'PATCH', body: body ? JSON.stringify(body) : undefined }),
   delete: <T,>(path: string) => request<T>(path, { method: 'DELETE' }),
+  upload: <T,>(path: string, formData: FormData) => uploadFile<T>(path, formData),
 };

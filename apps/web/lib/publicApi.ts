@@ -38,6 +38,7 @@ async function publicRequest<T>(path: string, options: RequestInit = {}): Promis
 
 export const publicApi = {
   getServices: () => publicRequest<{ id: string; name: string; description: string | null; durationMin: number; priceCents: number }[]>('/services'),
+  getGallery: () => publicRequest<{ id: string; url: string; caption: string | null }[]>('/gallery'),
   getAvailability: (serviceId: string, date: string, employeeId?: string) =>
     publicRequest<{ employeeId: string; employeeName: string; slots: string[] }[]>(
       `/availability?${new URLSearchParams({ serviceId, date, ...(employeeId ? { employeeId } : {}) })}`
